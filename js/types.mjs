@@ -22,6 +22,7 @@ function User(username, isAuth, cart = [], reservations = [], allergies = []) {
     }
 
     this.addBagToCart = function (bag) {
+        
         const existingBag = this.cart.find(item => item.establishmentId === bag.establishmentId)
 
         if (!existingBag) {
@@ -34,6 +35,7 @@ function User(username, isAuth, cart = [], reservations = [], allergies = []) {
     }
 
     this.removeBagFromCart = function (bagID) {
+
         const index = this.cart.findIndex(bag => bag.bagID === bagID)
         if (index >= 0) {
             this.cart.splice(index, 1)
@@ -42,7 +44,7 @@ function User(username, isAuth, cart = [], reservations = [], allergies = []) {
 
     this.addRemovedFood = function (bagID, food_name) {
         const bag = this.cart.find(item => item.bag.bagID === bagID)
-        if (bag) {
+        if (bag && bag.type === 'regular') {
             if (bag.removedFood.length < 2) {
                 bag.removedFood.push(food_name)
             }
@@ -51,7 +53,7 @@ function User(username, isAuth, cart = [], reservations = [], allergies = []) {
 
     this.deleteRemovedFood = function (bagID, food_name) {
         const bag = this.cart.find(item => item.bag.bagID === bagID)
-        if (bag) {
+        if (bag && bag.type === 'regular') {
             const index = bag.removedFood.findIndex(food => food === food_name)
             if (index >= 0) {
                 bag.removedFood.splice(index, 1)
