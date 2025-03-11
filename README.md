@@ -10,14 +10,14 @@
 # Lab Journal
 
 ## Lab 2 - Logic schema
-User
+### User
 
 User(username, name, password)
 
 PK: username
 
 
-Allergy
+### Allergy
 
 Allergy(username, allergy)
 
@@ -25,14 +25,14 @@ PK: (username, allergy)
 
 FK: username
 
-Establishment
+### Establishment
 
 Establishment(establishmentID, name, type, address, phone, toc)
 
 PK: establishmentID
 
 
-Bag
+### Bag
 Bag(bagID, type, size, price, establishmentID, startTime, endTime, status)
 
 PK: bagID
@@ -40,18 +40,18 @@ PK: bagID
 FK: establishmentID
 
 
-BagContent
+### BagContent
 
 BagContent(bagID, foodName, qty)
 
 PK: bagID
 
 
-Cart
+### Cart
 
 Cart(username, bagID, removedFood1, removedFood2, specialRequest)
 
-Reservation
+### Reservation
 
 Reservation(username, bagID)
 
