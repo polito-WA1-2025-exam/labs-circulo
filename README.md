@@ -51,6 +51,9 @@ PK: bagID
 
 Cart(username, bagID, removedFood1, removedFood2, specialRequest)
 
+PK: username, bagID
+FK: username, bagID
+
 ### Reservation
 
 Reservation(username, bagID)
