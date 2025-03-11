@@ -6,13 +6,11 @@ import { Bag } from '../../types/Bag';
 import { getReservations } from './Reservation';
 import { getAllergies } from './Allergy';
 
-export async function getUsernames(db: sqlite.Database): Promise<User[]> {
+export async function getUsernames(db: sqlite.Database): Promise<string[]> {
     const sql = `
         SELECT username FROM User
     `
-    return dbAllAsync(db, sql, []).then((rows) => {
-        return rows
-    }
+    return dbAllAsync(db, sql, []).then((rows) => rows.map((row) => row.username)
     )
 }
 

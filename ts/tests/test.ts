@@ -9,7 +9,7 @@ async function testVari(){
 
     const user1 = usernames[1]
 
-    const user = await getUser(db, user1.username)
+    const user = await getUser(db, user1)
 
     // console.log(user);
 
