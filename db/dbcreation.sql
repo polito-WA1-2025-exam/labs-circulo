@@ -30,6 +30,7 @@ CREATE TABLE Bag
     price FLOAT NOT NULL,
     startTime TEXT,
     endTime TEXT,
+    status TEXT,
     establishmentID INTEGER NOT NULL,
     FOREIGN KEY establishmentID REFERENCES Establishment(establishmentID)
 )

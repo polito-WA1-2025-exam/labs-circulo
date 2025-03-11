@@ -2,5 +2,18 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "name": "labs-circulo",
+  "version": "1.0.0",
+  "description": "- s339645 CAROLLO FEDERICO\r - s339425 CARLETTO DAVIDE\r - s300467 CARENA MICHELE",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "script": "tsc && node dist/index.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

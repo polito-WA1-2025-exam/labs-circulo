@@ -4,11 +4,11 @@ import { Bag } from './Bag';
 class User{
     username: string;
     isAuth: boolean;
-    cart: Cart;
+    cart: Cart | null;
     reservations: Bag[];
     allergies: string[];
 
-    constructor(username: string, isAuth: boolean, cart: Cart, reservations = [], allergies = []){
+    constructor(username: string, isAuth: boolean, cart: Cart | null, reservations: Bag[] = [], allergies: string[] = []){
         this.username = username
         this.isAuth = isAuth
         this.cart = cart //list of all the bags that the user has added to the cart
@@ -16,5 +16,15 @@ class User{
         this.allergies = allergies //allergies of the user
     }
 
+    confirmOrder(): boolean{
+        return this.cart?.confirmOrder() || false
+    }
+
+    addBagToCart(bag: Bag): boolean{
+        return this.cart?.addBag(bag) || false
+    }
+
 
 }
+
+export { User }
