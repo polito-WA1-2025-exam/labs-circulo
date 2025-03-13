@@ -1,4 +1,4 @@
-import { getItems, getItemsWithCondition } from './db_retrieval.mjs';
+import { getItems, getItemsWithCondition } from './db_handler.mjs';
 import {User,Bag,Establishment} from './types.mjs';
 
 /* FIRST LAB
