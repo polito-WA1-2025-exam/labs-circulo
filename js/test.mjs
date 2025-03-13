@@ -1,5 +1,7 @@
+import { getItems, getItemsWithCondition } from './db_retrieval.mjs';
 import {User,Bag,Establishment} from './types.mjs';
 
+/* FIRST LAB
 const users = [
     new User("Michele", true, [{ bagID: 1, removedFood: [], specialRequest: "None" }], ["Bag3"], []),
     new User("Federico", false, [{ bagID: 2, removedFood: [], specialRequest: "No gluten" }], [], ["Gluten"]),
@@ -27,5 +29,33 @@ const users = [
     new Establishment(4, "Fresh Market", "Store", "Via Garibaldi, 15, Milano", "+39 02 11223344", "Fresh Produce", []),
     new Establishment(5, "Sushi Palace", "Restaurant", "Corso Buenos Aires, 22, Milano", "+39 02 55667788", "Japanese", [])
   ];
+*/
 
+
+async function fetchData(table, condition = null, params = []) {
+  if (condition) {
+      return await getItemsWithCondition(table, condition, params);
+  } else {
+      return await getItems(table);
+  }
+}
+
+function main(){
+  const table = "Bag"
+  const condition = "type LIKE ?"
+  const params = ["P%"]
+
+  // fetchData(table).then(data => {
+  //   console.log(data);
+  // });
+
+  fetchData(table, condition, params).then(data => {
+    console.log(data);
+  });
+
+}
+
+
+main()
+  
   
