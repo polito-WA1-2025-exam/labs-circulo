@@ -1,16 +1,17 @@
-import { selectItems, insertItem, deleteItem, updateItem} from './db_handler.mjs';
+import { selectItems, insertItem, deleteItem, updateItem, executeQuery} from './async_db_handler.mjs';
 
 
 
-function main() {
+async function main() {
   let table = "Bag"
   let operation = "SELECT"
   let condition = "type LIKE ?"
   let columns = ["type", "size", "price", "availability"]
   let params = ["P%"]
+  const db = await openDb()
 
   //select
-  executeQuery(table, operation, condition, null, params)
+  executeQuery(table, operation, condition, ["*"], params)
     .then((rows) => {
       console.log(rows)
     })

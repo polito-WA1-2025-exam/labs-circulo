@@ -1,6 +1,124 @@
 import sqlite from "sqlite3";
 
 /**
+ * Opens a SQLite database.
+ * @param {string} filename - The name of the database file.
+ * @returns {Promise<sqlite.Database>} A promise that resolves to the database instance.
+ */
+export async function openDb(filename) {
+    return new Promise((resolve, reject) => {
+        const db = new sqlite.Database(filename, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(db);
+            }
+        });
+    });
+}
+
+/**
+ * Closes a SQLite database.
+ * @param {sqlite.Database} db - The database instance to close.
+ * @returns {Promise<void>} A promise that resolves when the database is closed.
+ */
+export async function closeDb(db) {
+    return new Promise((resolve, reject) => {
+        db.close((err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Executes an SQL query and retrieves all rows.
+ * @param {sqlite.Database} db - The database instance.
+ * @param {string} sql - The SQL query to execute.
+ * @param {any[]} params - The parameters for the SQL query.
+ * @returns {Promise<any[]>} A promise that resolves to the rows retrieved.
+ */
+export function dbAllAsync(db, sql, params) {
+    return new Promise((resolve, reject) => {
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+}
+
+/**
+ * Executes an SQL query and retrieves a single row.
+ * @param {sqlite.Database} db - The database instance.
+ * @param {string} sql - The SQL query to execute.
+ * @param {any[]} params - The parameters for the SQL query.
+ * @returns {Promise<any>} A promise that resolves to the row retrieved.
+ */
+export function dbGetAsync(db, sql, params) {
+    return new Promise((resolve, reject) => {
+        db.get(sql, params, (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row);
+            }
+        });
+    });
+}
+
+/**
+ * Executes an SQL query without returning any rows.
+ * @param {sqlite.Database} db - The database instance.
+ * @param {string} sql - The SQL query to execute.
+ * @param {any[]} params - The parameters for the SQL query.
+ * @returns {Promise<void>} A promise that resolves when the query is executed.
+ */
+export function dbRunAsync(db, sql, params) {
+    return new Promise((resolve, reject) => {
+        db.run(sql, params, function (err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Begins a transaction.
+ * @param {sqlite.Database} db - The database instance.
+ * @returns {Promise<void>} A promise that resolves when the transaction begins.
+ */
+export function beginTransactionAsync(db) {
+    return dbRunAsync(db, "BEGIN TRANSACTION", []);
+}
+
+/**
+ * Commits a transaction.
+ * @param {sqlite.Database} db - The database instance.
+ * @returns {Promise<void>} A promise that resolves when the transaction is committed.
+ */
+export function commitAsync(db) {
+    return dbRunAsync(db, "COMMIT", []);
+}
+
+/**
+ * Rolls back a transaction.
+ * @param {sqlite.Database} db - The database instance.
+ * @returns {Promise<void>} A promise that resolves when the transaction is rolled back.
+ */
+export function rollbackAsync(db) {
+    return dbRunAsync(db, "ROLLBACK", []);
+}
+
+/**
  * Esegue una query SQL sulla tabella specificata, basata sull'operazione richiesta (SELECT, INSERT, DELETE, UPDATE).
  *
  * @param {sqlite.Database} db - L'istanza del database SQLite.
@@ -12,7 +130,7 @@ import sqlite from "sqlite3";
  * @param {array} params - I parametri da passare alla query SQL.
  * @returns {Promise} Una Promise che restituisce i risultati dell'operazione (rows) o un messaggio di successo/errore.
  */
-async function executeQuery(db, table, operation, condition = null, columns = [], params = []) {
+export async function executeQuery(db, table, operation, condition = null, columns = [], params = []) {
     switch (operation) {
         case "SELECT":
             return await selectItems(db, table, condition, columns, params);
