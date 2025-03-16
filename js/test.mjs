@@ -1,5 +1,4 @@
 import { selectItems, insertItem, deleteItem, updateItem} from './db_handler.mjs';
-import { User, Bag, Establishment } from './types.mjs';
 
 /**
  * Esegue una query SQL sulla tabella specificata, basata sull'operazione richiesta (SELECT, INSERT, DELETE, UPDATE).
