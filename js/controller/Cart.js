@@ -1,8 +1,11 @@
 import { dbAllAsync, openDb, closeDb } from "../async_db_handler.mjs";
+import { Bag } from "../types/Bag";
 import { Cart } from "../types/Cart";
+import { CartItem } from "../types/CartItem";
+import dayjs from "dayjs";
 
 function mapToCartItem(row) {
-    new CartItem(
+    return new CartItem(
         new Bag(
             row.bagID,
             row.type,
@@ -38,6 +41,9 @@ export async function getCart(username) {
 
         // Fetch rows from the database using the provided query and username
         const rows = await dbAllAsync(db, sql, [username]);
+
+        console.log(rows);
+        
 
         // Map each row to a CartItem object
         const cartItems = rows.map(mapToCartItem);

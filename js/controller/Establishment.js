@@ -26,7 +26,7 @@ function mapToEstablishment(row) {
 export async function getEstablishments() {
     const db = await openDb();
     try {
-        const items = await selectItems(db, "Establishment", ["*"], null, []);
+        const items = await selectItems(db, "Establishment", null, ["*"], []);
         return items.map(mapToEstablishment);
     } finally {
         await closeDb(db);

@@ -1,5 +1,16 @@
 import { Bag } from "./Bag";
 
+/**
+ * Represents an establishment.
+ * @constructor
+ * @param {string} establishmentId - The unique identifier for the establishment.
+ * @param {string} name - The name of the establishment.
+ * @param {string} type - The type/category of the establishment.
+ * @param {string} address - The address of the establishment.
+ * @param {string} phone - The phone number of the establishment.
+ * @param {Date} toc - The timestamp of creation for the establishment.
+ * @param {Bag[]} [bags=[]] - An optional array of bags associated with the establishment.
+ */
 function Establishment(establishmentId, name, type, address, phone, toc, bags = []) {
     this.establishmentId = establishmentId;
     this.name = name;

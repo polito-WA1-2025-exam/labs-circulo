@@ -20,7 +20,7 @@ export async function getBags() {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], null, [])
+        return selectItems(db, "Bag", null, ["*"], [])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {
@@ -30,12 +30,26 @@ export async function getBags() {
 }
 
 // Fetch a specific bag by its ID
+/**
+ * Retrieves a bag from the database based on the provided bag ID.
+ *
+ * @param {number} bagId - The unique identifier of the bag to retrieve.
+ * @returns {Promise<Bag>} A promise that resolves to the bag object if found, or null if not found.
+ * @throws {Error} If there is an issue opening or closing the database.
+ */
 export async function getBag(bagId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "bagID = ?", [bagId])
-            .then((rows) => rows.length > 0 ? mapToBag(rows[0]) : null);
+        return selectItems(db, "Bag", "bagID = ?", ["*"], [bagId])
+            .then(rows => {
+                if (rows.length === 0) {
+                    Promise.reject(new Error(`Bag with ID ${bagId} not found`));
+                }
+                
+                return rows[0];
+            })
+            .then(row => mapToBag(row));
     } finally {
         if (db) {
             await closeDb(db);
@@ -48,7 +62,7 @@ export async function getBagsByEstablishment(establishmentId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "establishmentID = ?", [establishmentId])
+        return selectItems(db, "Bag", "establishmentID = ?", ["*"], [establishmentId])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {
@@ -62,7 +76,7 @@ export async function getAvailableBags() {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "status = ?", ["available"])
+        return selectItems(db, "Bag", "status = ?", ["*"], ["disponibile"])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {
@@ -72,11 +86,18 @@ export async function getAvailableBags() {
 }
 
 // Fetch all available bags for a specific establishment
+/**
+ * Retrieves the available bags for a specific establishment.
+ *
+ * @param {number} establishmentId - The ID of the establishment to filter bags by.
+ * @returns {Promise<Array>} A promise that resolves to an array of bag objects.
+ * @throws {Error} If there is an issue opening or closing the database.
+ */
 export async function getAvailableBagsByEstablishment(establishmentId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "status = ? AND establishmentID = ?", ["available", establishmentId])
+        return selectItems(db, "Bag", "status = ? AND establishmentID = ?",  ["*"], ["disponibile", establishmentId])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {
@@ -90,7 +111,7 @@ export async function getReservedBags() {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "status = ?", ["reserved"])
+        return selectItems(db, "Bag", "status = ?", ["*"], ["riservato"])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {
@@ -100,11 +121,19 @@ export async function getReservedBags() {
 }
 
 // Fetch all available bags starting from a specific datetime
+/**
+ * Retrieves available bags from the database starting from a specific date and time.
+ *
+ * @param {dayjs.Dayjs} datetime - The number of days to calculate the starting date and time.
+ *                            This value is used to determine the datetime in the format "YYYY-MM-DD HH:mm:ss".
+ * @returns {Promise<Array<Bag>>} A promise that resolves to an array of available bags mapped to their respective objects.
+ * @throws {Error} If there is an issue opening or closing the database connection.
+ */
 export async function getAvailableBagsFromDateTime(datetime) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", ["*"], "status = ? AND startTime >= ?", ["disponibile", datetime.format("YYYY-MM-DD HH:mm:ss")])
+        return selectItems(db, "Bag", "status = ? AND startTime >= ?", ["*"], ["disponibile", datetime.format("YYYY-MM-DD HH:mm:ss")])
             .then((rows) => rows.map(mapToBag));
     } finally {
         if (db) {

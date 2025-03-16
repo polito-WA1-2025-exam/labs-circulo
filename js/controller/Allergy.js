@@ -9,7 +9,7 @@ export async function getAllergies(username) {
     let db;
     try {
         db = await openDb();
-        const allergies = await selectItems(db, "Allergy", ["*"], "username = ?", [username]);
+        const allergies = await selectItems(db, "Allergy", "username = ?", ["*"], [username]);
         return allergies.map(mapToAllergy);
     } finally {
         if (db) {

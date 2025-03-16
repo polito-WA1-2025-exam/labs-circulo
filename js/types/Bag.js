@@ -13,7 +13,7 @@ import dayjs from 'dayjs'
  * @param {number} establishmentId - The unique identifier of the establishment associated with the bag.
  */
 function Bag(bagId, type, price, startTime, endTime, status, establishmentId) {
-    this.bagId = bagId;
+    this.bagID = bagId;
     this.type = type;
     this.price = price;
     this.startTime = startTime;
@@ -21,10 +21,20 @@ function Bag(bagId, type, price, startTime, endTime, status, establishmentId) {
     this.status = status;
     this.establishmentId = establishmentId;
 
+    /**
+     * Checks if the time range is valid.
+     * 
+     * @returns {boolean} True if the start time is before the end time, otherwise false.
+     */
     this.isValidRange = function() {
         return this.startTime.isBefore(this.endTime);
     };
 
+    /**
+     * Checks if the bag is available.
+     * 
+     * @returns {boolean} True if the bag's status is 'available', otherwise false.
+     */
     this.isAvailable = function() {
         return this.status === 'available';
     };

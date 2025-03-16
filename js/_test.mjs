@@ -1,4 +1,4 @@
-import { selectItems, insertItem, deleteItem, updateItem, executeQuery} from './async_db_handler.mjs';
+import { selectItems, insertItem, deleteItem, updateItem, executeQuery, openDb} from './async_db_handler.mjs';
 
 
 
