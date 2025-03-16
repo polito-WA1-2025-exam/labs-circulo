@@ -62,8 +62,6 @@ export function updateItem(tableName, columns, condition, params = []) {
 
         const sql = `UPDATE ${tableName} SET ${columns.map(col => `${col} = ?`).join(', ')} WHERE ${condition}`;
 
-        // const queryParams = [...values, ...conditionValues];
-
         db.run(sql, params, function (err) {
             if (err) {
                 reject('Errore nell\'aggiornare il record: ' + err.message);
@@ -77,35 +75,3 @@ export function updateItem(tableName, columns, condition, params = []) {
         });
     });
 }
-
-
-
-
-
-/*insertItem('User', ['username', 'name', 'password'], ['michi', 'michi care', 'password124'])
-    .then(message => {
-        console.log(message);
-    })
-    .catch(error => {
-        console.error(error); 
-    });
-*/
-
-/*
-deleteItem('User', 'michi') 
-    .then(message => {
-        console.log(message); 
-    })
-    .catch(error => {
-        console.error(error);  
-    });
-*/
-/*
-updateItem('User', { name: 'John Updated', password: 'newPassword123' }, ['john_doe'])  // Passa i nuovi valori e la chiave primaria
-    .then(message => {
-        console.log(message);  // Messaggio di successo
-    })
-    .catch(error => {
-        console.error(error);  // Messaggio di errore
-    });
-*/
