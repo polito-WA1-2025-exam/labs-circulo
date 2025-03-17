@@ -5,7 +5,7 @@ import sqlite from "sqlite3";
  * @param {string} filename - The name of the database file.
  * @returns {Promise<sqlite.Database>} A promise that resolves to the database instance.
  */
-export async function openDb(filename="db\\food_copy.sqlite") {
+export async function openDb(filename = "db\\food_copy.sqlite") {
     return new Promise((resolve, reject) => {
         const db = new sqlite.Database(filename, (err) => {
             if (err) {

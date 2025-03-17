@@ -49,6 +49,7 @@ describe('Bag', () => {
 
      test("getReservedBags", async () => {
         const bags = await getReservedBags();
+
         
     
         expect(Array.isArray(bags)).toBe(true);

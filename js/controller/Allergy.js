@@ -3,7 +3,7 @@ import { closeDb, openDb, selectItems } from "../async_db_handler.mjs"
 function mapToAllergy(row) {
     return row.allergy
 }
-    
+
 
 export async function getAllergies(username) {
     let db;
