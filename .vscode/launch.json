@@ -1,19 +1,25 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Debug Jest Tests",
-        "program": "${workspaceRoot}/node_modules/.bin/jest",
-        "args": [
-          "--runInBand",
-          "--watchAll=false"
-        ],
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
-
-      }
-    ]
-  }
-  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Jest Tests",
+      "program": "${workspaceRoot}/node_modules/.bin/jest",
+      "args": [
+        "--runInBand",
+        "--watchAll=false"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug server.js",
+      "program": "${workspaceFolder}/js/server.js",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
