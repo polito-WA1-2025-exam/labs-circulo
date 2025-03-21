@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.9",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  }
+}
