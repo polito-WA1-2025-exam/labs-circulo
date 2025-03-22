@@ -1,4 +1,5 @@
 import sqlite from "sqlite3";
+import path from 'path';
 
 /**
  * Opens a SQLite database.
@@ -160,6 +161,7 @@ export async function executeQuery(db, table, operation, condition = null, colum
  * @returns {Promise<Array>} A promise that resolves to an array of rows matching the query.
  */
 export function selectItems(db, tableName, condition = null, columns = ["*"], params = []) {
+    console.log(db);console.log(tableName);console.log(condition);console.log(columns);console.log(params);
     return new Promise((resolve, reject) => {
         const sql = `SELECT ${columns.join(", ")} FROM ${tableName}` + (condition ? ` WHERE ${condition}` : "");
 
