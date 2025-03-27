@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import * as BagController from  "../../db_controller/Bag.js";
+import * as BagController from  "../../db_controller/Bag.mjs";
 
 async function test(req, res) {
     res.json({ message: 'Bag API works just fine' });

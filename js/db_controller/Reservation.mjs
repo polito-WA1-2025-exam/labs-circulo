@@ -1,5 +1,5 @@
 import { dbAllAsync, openDb, closeDb } from "../async_db_handler.mjs";
-import { Bag } from "../types/Bag"
+import { Bag } from "../types/Bag.mjs"
 import dayjs from "dayjs";
 
 

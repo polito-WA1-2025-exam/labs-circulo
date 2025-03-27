@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Bag } from '../types/Bag.js';
+import { Bag } from '../types/Bag.mjs';
 import { closeDb, deleteItem, insertItem, openDb, selectItems, updateItem } from '../async_db_handler.mjs';
 
 const columns = ["type", "price", "startTime", "endTime", "status", "establishmentID"];

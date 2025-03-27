@@ -1,7 +1,7 @@
 import { dbAllAsync, openDb, closeDb } from "../async_db_handler.mjs";
-import { Bag } from "../types/Bag";
-import { Cart } from "../types/Cart";
-import { CartItem } from "../types/CartItem";
+import { Bag } from "../types/Bag.mjs";
+import { Cart } from "../types/Cart.mjs";
+import { CartItem } from "../types/CartItem.mjs";
 import dayjs from "dayjs";
 
 function mapToCartItem(row) {

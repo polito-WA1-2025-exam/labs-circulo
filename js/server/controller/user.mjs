@@ -1,4 +1,4 @@
-import * as UserController from  "../../db_controller/User.js";
+import * as UserController from  "../../db_controller/User.mjs";
 
 async function test(req, res) {
     res.json({ message: 'User API works just fine' });

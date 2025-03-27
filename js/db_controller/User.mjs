@@ -1,8 +1,8 @@
 import { openDb, closeDb, selectItems, deleteItem, insertItem, updateItem } from '../async_db_handler.mjs';
-import { User } from '../types/User.js';
-import { getReservations } from './Reservation';
-import { getCart } from './Cart';
-import { getAllergies } from './Allergy';
+import { User } from '../types/User.mjs';
+import { getReservations } from './Reservation.mjs';
+import { getCart } from "./Cart.mjs";
+import { getAllergies } from './Allergy.mjs';
 
 const columns = ["username", "name", "password"]
 /**

@@ -1,4 +1,4 @@
-import { Bag } from "../types/Bag.js";
+import { Bag } from "./Bag.mjs";
 
 /**
  * Represents an establishment.

@@ -1,6 +1,6 @@
 import { selectItems, insertItem, updateItem, deleteItem } from "../async_db_handler.mjs";
 import { openDb, closeDb } from "../async_db_handler.mjs";
-import { Establishment } from "../types/Establishment.js";
+import { Establishment } from "../types/Establishment.mjs";
 
 const columns = ["name", "type", "address", "phone", "toc"];
 

@@ -1,5 +1,5 @@
-import { Cart } from './Cart';
-import { Bag } from './Bag';
+import { Cart } from './Cart.mjs';
+import { Bag } from './Bag.mjs';
 
 
 /**

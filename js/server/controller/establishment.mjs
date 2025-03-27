@@ -1,4 +1,4 @@
-import * as EstablishmentController from  "../../db_controller/Establishment.js";
+import * as EstablishmentController from  "../../db_controller/Establishment.mjs";
 
 async function test(req, res) {
     res.json({ message: 'Establishment API works just fine' });
