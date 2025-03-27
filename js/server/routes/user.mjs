@@ -5,9 +5,9 @@ const routerUser = Router();
 
 routerUser.get('/test', UserController.test);
 routerUser.get('/getUsernames', UserController.getUsernames);
-routerUser.get('/getUser/:username', UserController.getUser);
-routerUser.delete('/deleteUser/:username', UserController.deleteUser);
-routerUser.post('/inserUser', UserController.insertUser);
-routerUser.put('/updateUser', UserController.updateUser);
+routerUser.get('/:username', UserController.getUser);
+routerUser.delete('/:username', UserController.deleteUser);
+routerUser.post('/insert', UserController.insertUser);
+routerUser.post('/update/:username', UserController.updateUser);
 
 export default routerUser;
