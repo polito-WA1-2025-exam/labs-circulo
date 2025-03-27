@@ -1,5 +1,5 @@
-import { Bag } from './Bag'
-import { CartItem } from './CartItem'
+import { Bag } from './Bag.js';
+import { CartItem } from '../CartItem';
 
 /**
  * Represents a shopping cart.
