@@ -177,7 +177,9 @@ export async function updateBag(updateColumns, condition, values) {
     try{
         db = await openDb();
         return await updateItem(db, "Bag", updateColumns, condition, values);
-    }catch(error){
-        res.status(500).json({error : "Errore nell'aggiornamento della borsa " + error.message});
+    } finally {
+        if (db) {
+            await closeDb(db);
+        }
     }
 }

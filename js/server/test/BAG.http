@@ -43,4 +43,4 @@ Content-Type: application/json
 }
 
 ### 🔹 Elimina una borsa per ID
-DELETE http://localhost:3000/api/bag/deleteBagWithId/1 HTTP/110.1
+DELETE http://localhost:3000/api/bag/deleteBagWithId/110 HTTP/110.1
