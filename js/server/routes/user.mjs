@@ -8,6 +8,6 @@ routerUser.get('/getUsernames', UserController.getUsernames);
 routerUser.get('/:username', UserController.getUser);
 routerUser.delete('/:username', UserController.deleteUser);
 routerUser.post('/insert', UserController.insertUser);
-routerUser.post('/update/:username', UserController.updateUser);
+routerUser.put('/:username', UserController.updateUser);
 
 export default routerUser;

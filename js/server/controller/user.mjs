@@ -47,9 +47,10 @@ export async function insertUser(req, res) {
 
 export async function updateUser(req, res) {
     try {
-        if (req.body.password) delete req.body.password;
+        if (req.query.password) delete req.body.password;
+        if (req.query.username) delete req.body.username;
 
-        const result = await UserController.updateUser(Object.keys(req.body), `username = '${req.params.username}'`, Object.values(req.body));
+        const result = await UserController.updateUser(Object.keys(req.query), `username = '${req.params.username}'`, Object.values(req.query));
         res.json({ message: "User aggiornato con successo!", result });
 
     } catch (error) {
