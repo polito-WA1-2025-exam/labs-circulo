@@ -43,7 +43,6 @@ async function deleteEstablishmentWithId(req, res){
 
 async function insertEstablishment(req, res){
     try{
-        console.log(req.body);
         const result = await EstablishmentController.insertEstablishment(req.body);
         res.json(result);
     }catch(error){
@@ -53,7 +52,6 @@ async function insertEstablishment(req, res){
 
 async function updateEstablishment(req, res){
    try{
-           console.log(req.body.columns, req.body.conditions, req.body.values);
            const result = await EstablishmentController.updateEstablishment(req.body.columns, req.body.conditions, req.body.values);
            res.json({ message: "Stabilimento aggiornato con successo!", result });
    

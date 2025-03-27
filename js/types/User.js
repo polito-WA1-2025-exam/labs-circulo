@@ -25,13 +25,18 @@ import { Bag } from './Bag';
  * @param {Bag} bag - The bag to be added to the cart.
  * @returns {boolean} - Returns true if the bag is successfully added, otherwise false.
  */
-function User(username, isAuth, cart = null, reservations = [], allergies = []) {
+function User(username, name, isAuth, cart = null, reservations = [], allergies = []) {
     /**
      * @type {string}
      */
     this.username = username;
 
     /**
+     * @type {string}
+     */
+        this.name = name;
+    /**
+     * 
      * @type {boolean}
      */
     this.isAuth = isAuth;

@@ -56,4 +56,6 @@ export async function getCart(username) {
             await closeDb(db);
         }
     }
+
 }
+
