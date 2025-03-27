@@ -1,100 +1,117 @@
-import * as dbHandler from "../../async_db_handler.mjs"; 
-
+import dayjs from "dayjs";
+import * as BagController from  "../../db_controller/Bag.js";
 
 async function test(req, res) {
     res.json({ message: 'Bag API works just fine' });
 }
 
-async function getAllItems(req, res) {
+async function getBags(req, res) {
     try{
-        const db = await dbHandler.openDb();
-        const bags = await dbHandler.selectItems(db, 'Bag');
-        await dbHandler.closeDb(db);
+        const  bags = await BagController.getBags();
+        res.json(bags);
+
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
+    }
+}
+
+async function getBagById(req, res) {
+    try{
+        const  bags = await BagController.getBagById(req.params.bagID);
+        res.json(bags);
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero della borsa: " + error.message});
+    }
+}
+
+async function getBagsByEstablishment(req, res) {
+    try{
+        const  bags = await BagController.getBagsByEstablishment(req.params.establishmentID);
+        res.json(bags);
+
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
+    }        
+}
+
+async function getAvailableBags(req, res) {
+    try{
+        const  bags = await BagController.getAvailableBags();
         res.json(bags);
     }catch(error){
         res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
     }
 }
-async function getItemsByCriteria(req, res) {
-    try {
-    
-        const { bagID, type, size, price, establishmentID, startTime, endTime, status } = req.query;
 
-        const db = await dbHandler.openDb();
-        let condition = [];
-        let params = [];
-
-        if (bagID) {
-            condition.push("bagID = ?");
-            params.push(bagID);
-        }
-
-        if (type) {
-            condition.push("LOWER(type) = LOWER(?)");
-            params.push(type);
-        }
-
-        if (size) {
-            condition.push("size = ?");
-            params.push(size);
-        }
-
-        if (price) {
-            condition.push("price = ?");
-            params.push(price);
-        }
-
-        if (establishmentID) {
-            condition.push("establishmentID = ?");
-            params.push(establishmentID);
-        }
-
-        if (startTime) {
-            condition.push("startTime >= ?");
-            params.push(startTime);
-        }
-
-        if (endTime) {
-            condition.push("endTime <= ?");
-            params.push(endTime);
-        }
-
-        if (status) {
-            condition.push("status = ?");
-            params.push(status);
-        }
-
-        const whereClause = condition.length > 0 ? condition.join(" AND ") : null;
-
-        const bags = await dbHandler.selectItems(db, "Bag", whereClause, ["*"], params);
-        await dbHandler.closeDb(db);
-
-        res.json(bags); 
-    } catch (error) {
-        res.status(500).json({ error: "Errore nel recupero degli articoli: " + error.message });
+async function getAvailableBagsByEstablishment(req, res){
+    try{
+        const  bags = await BagController.getAvailableBagsByEstablishment(req.params.establishmentID);
+        res.json(bags);
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
     }
 }
 
-async function deleteItem(req, res){
+
+async function getReservedBags(req, res){
     try{
-        const {bagID} = req.params;
+        const bags = await BagController.getReservedBags();
+        res.json(bags)
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
+    }
+}
 
-        const db = await dbHandler.openDb();
+async function getAvailableBagsFromDateTime(req, res){
+    try{
+        const dateTime = req.params.datetime.split("T").join(" ");
+        const bags = await BagController.getAvailableBagsFromDateTime(dayjs(dateTime));
+        res.json(bags);
+    }catch(error){
+        res.status(500).json({error : "Errore nel recupero delle borse: " + error.message});
+    }
+}
 
-        await dbHandler.dbRunAsync(db, "DELETE FROM Bag WHERE bagID = ?", [bagID]);
-
-        await dbHandler.closeDb(db);
-
-        res.json({ message: `Borsa con ID ${bagID} eliminata con successo!` });
+//:)
+async function deleteBagWithId(req, res){
+    try{
+        const result = await BagController.deleteBagWithId(req.params.bagID);
+        res.json(result);
     }catch(error){
         res.status(500).json({error : "Errore nell'eliminazione della borsa " + error.message});
     }
 }
 
+async function insertBag(req, res) {
+
+    try{
+        const result = await BagController.insertBag(req.body);
+        res.json({ message: "Borsa inserita con successo!", result });
+    }catch(error){
+        res.status(500).json({error : "Errore nell'inserimento della borsa " + error.message});
+    }   
+}
+
+async function updateBag(req, res) {
+    try{
+        console.log(req.body.columns, req.body.conditions, req.body.values);
+        const result = await BagController.updateBag(req.body.columns, req.body.conditions, req.body.values);
+        res.json({ message: "Borsa aggiornata con successo!", result });
+
+    }catch(error){
+        res.status(500).json({error : "Errore nell'aggiornamento della borsa " + error.message});
+    }
+}
 
 export default {
-    test, 
-    getAllItems,
-    getItemsByCriteria,
-    deleteItem,
+    test,
+    getBags,
+    getBagById,
+    getBagsByEstablishment,
+    getAvailableBags,
+    getAvailableBagsByEstablishment,
+    getAvailableBagsFromDateTime,
+    insertBag,
+    updateBag,
+    deleteBagWithId
 };

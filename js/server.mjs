@@ -1,17 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import routerApi from './server/api.mjs';
+import morgan from 'morgan';
 
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
 const api_prefix = process.env.API_PREFIX || 'api';
-
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan('dev'))
 
 app.use(`/${api_prefix}`, routerApi);
 

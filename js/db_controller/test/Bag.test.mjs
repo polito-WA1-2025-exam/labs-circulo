@@ -1,12 +1,13 @@
 import { Bag } from "../../types/Bag";
-import { getBag, getBags, 
+import { getBagById, getBags, 
     getBagsByEstablishment, getAvailableBags, 
-    getAvailableBagsByEstablishment, getReservedBags, getAvailableBagsFromDateTime } from "../Bag";
+    getAvailableBagsByEstablishment, getReservedBags, getAvailableBagsFromDateTime, 
+    updateBag} from "../Bag";
 import dayjs from "dayjs";
 
 describe('Bag', () => {
     test('getBag', async () => { 
-        const bag = await getBag(101);
+        const bag = await getBagById(101);
     
         expect(bag).toBeInstanceOf(Bag);
         expect(bag.bagID).toBe(101);
@@ -67,4 +68,12 @@ describe('Bag', () => {
         expect(bags.length).toBeGreaterThan(0);
         expect(bags[0]).toBeInstanceOf(Bag);
      })
+
+     test("updateBag", async () => {
+
+         updateBag(["type"], "bagID = 102", ["Pane aggiornato"]);
+         const updatedBag = await getBagById(102);
+
+         expect(updatedBag.type).toBe("Pane aggiornato");
+       })
 })
