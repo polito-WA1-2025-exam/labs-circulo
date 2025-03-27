@@ -60,13 +60,13 @@ export async function getEstablishmentsByType(type) {
     try {
         db = await openDb();
         const rows = await selectItems(db, "Establishment", "type = ?", ["*"], [type]);
-        
+
         if (rows.length === 0) {
             return [];
         }
 
         return rows.map(row => mapToEstablishment(row));
-        
+
     } finally {
         if (db) {
             await closeDb(db);
@@ -103,10 +103,10 @@ export async function insertEstablishment(establishment) {
 
 export async function updateEstablishment(updateColumns, condition, values) {
     let db;
-    try{
+    try {
         db = await openDb();
         return await updateItem(db, "Establishment", updateColumns, condition, values);
-    }finally {
+    } finally {
         if (db) {
             await closeDb(db);
         }

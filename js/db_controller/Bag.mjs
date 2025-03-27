@@ -174,7 +174,7 @@ export async function insertBag(bag) {
 
 export async function updateBag(updateColumns, condition, values) {
     let db;
-    try{
+    try {
         db = await openDb();
         return await updateItem(db, "Bag", updateColumns, condition, values);
     } finally {

@@ -31,7 +31,7 @@ export async function getReservations(username) {
         WHERE username = ?
     `
     let db;
-    try{
+    try {
         db = await openDb();
         const bags = await dbAllAsync(db, sql, [username]);
         return bags.map(mapToBag);

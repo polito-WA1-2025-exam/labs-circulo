@@ -43,7 +43,7 @@ export async function getCart(username) {
         const rows = await dbAllAsync(db, sql, [username]);
 
         console.log(rows);
-        
+
 
         // Map each row to a CartItem object
         const cartItems = rows.map(mapToCartItem);
