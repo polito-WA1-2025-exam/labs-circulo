@@ -238,6 +238,11 @@ export function deleteItem(db, tableName, condition, params = []) {
  */
 export function updateItem(db, tableName, columns, condition, params = []) {
     return new Promise((resolve, reject) => {
+        if (!Array.isArray(columns)) {
+            // Se columns non è un array, trasformalo in un array
+            columns = [columns];
+        }
+        
         const sql = `UPDATE ${tableName} SET ${columns.map(col => `${col} = ?`).join(", ")} WHERE ${condition}`;
 
         db.run(sql, params, function (err) {
