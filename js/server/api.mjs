@@ -16,11 +16,9 @@ routerApi.get('/test', (req, res) => {
 routerApi.use("/bag", routerBag);   //Will catch /api/bag
 routerApi.use("/user", routerUser); //Will catch /api/user
 routerApi.use("/establishment", routerEstablishment); //Will catch /api/establishment
-routerApi.use("/allergy", routerAllergy);
-
-routerApi.use("/reservation",routerReservation);
-
-routerApi.use("/cart",routerCart);
+routerApi.use("/allergy", routerAllergy); //Will catch /api/allergy
+routerApi.use("/reservation",routerReservation); //Will catch /api/reservation
+routerApi.use("/cart",routerCart); //Will catch /api/cart
 
 
 routerApi.all('*', (req, res) => {

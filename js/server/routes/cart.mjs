@@ -1,19 +1,19 @@
 import { Router } from "express";
 import CartController from "../controller/cart.mjs";
+import { Cart } from "../../types/Cart.mjs";
 
 const routerCart = Router();
 
 routerCart.get('/test', CartController.test);
-/*
 routerCart.get('/',CartController.getCarts);
-routerCart.get('/:username', CartController.getReservationsByUsername);
+routerCart.get('/:username', CartController.getCartByUsername);
 
-routerReservation.put('/insertReservation/:username',ReservationController.insertReservation);
+routerCart.post('/',CartController.insertCart);
+routerCart.put('/:username/:BagID',CartController.updateCart);
 
-routerReservation.put('/updateReservation/:username/:oldBagID',ReservationController.updateReservation); 
+routerCart.delete('/:username/:BagID', CartController.deleteCart);
 
-routerReservation.delete('/:username/:BagID', ReservationController.deleteReservationByBagID);
-*/
+
 
 
 

@@ -117,3 +117,29 @@ export async function getReservationsByUsername(username) {
         }
     }
 }
+
+
+export async function deleteReservationByBagID(username,bagID) {
+    let db;
+    try {
+        db = await openDb();
+        return deleteItem(db, "Reservation", "username = ? AND bagID = ? ", [username,bagID]);
+    } finally {
+        if (db) {
+            await closeDb(db);
+        }
+    }
+}
+
+
+export async function updateReservation(updateColumns, condition, values) {
+    let db;
+    try {
+        db = await openDb();
+        return await updateItem(db, "Reservation", updateColumns, condition, values);
+    } finally {
+        if (db) {
+            await closeDb(db);
+        }
+    }
+}

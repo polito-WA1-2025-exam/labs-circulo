@@ -56,7 +56,7 @@ async function updateAllergy(req, res) {
     } catch (error) {
         res.status(500).json({ error: "Errore nell'aggiornamento dell'allergia " + error.message });
     }
-}
+}   
 
 
 async function insertAllergy(req, res) {
