@@ -38,17 +38,17 @@ async function deleteAllergyByUsername(req, res) {
 
 async function updateAllergy(req, res) {
     try {
-        const { newAllergy } = req.body;
+        const { allergy } = req.body;
         const { username, oldAllergy } = req.params;
 
-        if (!newAllergy) {
+        if (!allergy) {
             return res.status(400).json({ error: "Nuova allergia non fornita" });
         }
 
         // I parametri da passare a updateAllergy
         const updateColumns = ["allergy"];  // Colonna da aggiornare
         const condition = "username = ? AND allergy = ?";  // Condizione per identificare l'allergia
-        const values = [newAllergy, username, oldAllergy];  // Nuovo valore e parametri per la condizione
+        const values = [allergy, username, oldAllergy];  // Nuovo valore e parametri per la condizione
 
         const result = await AllergyController.updateAllergy(updateColumns, condition, values);
         res.json({ message: "Allergia aggiornata con successo!", result });
@@ -62,9 +62,9 @@ async function updateAllergy(req, res) {
 async function insertAllergy(req, res) {
     try {
         const { username } = req.params;
-        const { newAllergy } = req.body;
+        const { allergy } = req.body;
 
-        if(!newAllergy){
+        if(!allergy){
             return res.status(400).json({error: "Allergia non fornita"});
         }
 
@@ -73,7 +73,7 @@ async function insertAllergy(req, res) {
             return res.status(404).json({ error: `Lo username '${username}' non esiste nel database` });
         }
 
-        const result = await AllergyController.insertAllergy(username, newAllergy);
+        const result = await AllergyController.insertAllergy(username, allergy);
         res.json({ message: "Allergia inserita con successo!", result });
     } catch (error) {
         res.status(500).json({ error: "Errore nell'inserimento dell'allergia " + error.message });

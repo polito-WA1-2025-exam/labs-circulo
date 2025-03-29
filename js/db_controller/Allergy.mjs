@@ -66,10 +66,19 @@ export async function insertAllergy(username, allergy) {
     let db;
     try {
         db = await openDb();
-        return await insertItem(db, "Allergy", ["username", "allergy"], [username, allergy]);
+        console.log("Database aperto correttamente"); // DEBUG
+
+        const result = await insertItem(db, "Allergy", ["username", "allergy"], [username, allergy]);
+
+        console.log("Risultato inserimento allergia:", result); // DEBUG
+        return result;
+    } catch (error) {
+        console.error("Errore durante l'inserimento dell'allergia:", error); // LOG ERROR
+        throw error; // IMPORTANTE: rethrow per farlo gestire nel controller
     } finally {
         if (db) {
             await closeDb(db);
+            console.log("Database chiuso correttamente"); // DEBUG
         }
     }
 }

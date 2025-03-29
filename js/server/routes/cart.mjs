@@ -7,10 +7,8 @@ const routerCart = Router();
 routerCart.get('/test', CartController.test);
 routerCart.get('/',CartController.getCarts);
 routerCart.get('/:username', CartController.getCartByUsername);
-
 routerCart.post('/',CartController.insertCart);
 routerCart.put('/:username/:BagID',CartController.updateCart);
-
 routerCart.delete('/:username/:BagID', CartController.deleteCart);
 
 

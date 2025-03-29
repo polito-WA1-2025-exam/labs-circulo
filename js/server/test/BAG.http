@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/bag/test HTTP/1.1
 
 ### 🔹 Ottieni tutte le borse
-GET http://localhost:3000/api/bag/getBags HTTP/1.1
+GET http://localhost:3000/api/bag/ HTTP/1.1
 
 ### 🔹 Ottieni una borsa per ID
 GET http://localhost:3000/api/bag/getBagById/101 HTTP/1.1
