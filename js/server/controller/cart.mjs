@@ -50,10 +50,19 @@ async function insertCart(req, res) {
 
 async function updateCart(req, res) {
     try {
-        const cart = await CartController.getCart(req.params.username);
+        const { removedFood1, removedFood2, specialRequest } = req.body;
+        const username = req.params.username;
+        const bagID = req.params.BagID;
+
+        const cart = await CartController.getCart(username);
         if (!cart) return res.status(404).json({ error: "Carrello non trovato" });
 
-        const result = await CartController.updateCart(req.body.columns, req.body.conditions, req.body.values);
+        const updateColumns = ["removedFood1", "removedFood2", "specialRequest"]; // Campi da aggiornare
+        const conditions = "username = ? AND bagID = ?"; // Condizione per trovare il carrello
+        const values = [removedFood1, removedFood2, specialRequest, username, bagID]; // Nuovi valori
+
+        // Aggiorna il carrello
+        const result = await CartController.updateCart(updateColumns, conditions, values);
         res.json({ message: "Carrello aggiornato con successo!", result });
 
     } catch (error) {

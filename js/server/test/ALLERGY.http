@@ -10,12 +10,14 @@ GET http://localhost:3000/api/allergy/marco_bruno HTTP/1.1
 ###🔹 Inserisci una nuova allergia
 POST http://localhost:3000/api/allergy/marco_bruno HTTP/1.1
 Content-Type: application/json
+
 {
   "allergy": "glutine"
 }
 ###🔹 Aggiorna un'allergia per username
 PUT http://localhost:3000/api/allergy/marco_bruno/soia HTTP/1.1
 Content-Type: application/json
+
 {
     "allergy": "lattosio"
 }

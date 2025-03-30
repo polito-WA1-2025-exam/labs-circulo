@@ -127,6 +127,9 @@ export async function updateCart(updateColumns, condition, values) {
     let db;
     try {
         db = await openDb();
+        console.log(updateColumns);
+        console.log(condition);
+        console.log(values);
         return await updateItem(db, "Cart", updateColumns, condition, values);
     } finally {
         if (db) {
