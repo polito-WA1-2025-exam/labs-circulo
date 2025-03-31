@@ -1,5 +1,5 @@
-import { Bag } from './Bag'
-import { CartItem } from './CartItem'
+import { Bag } from './Bag.mjs';
+import { CartItem } from './CartItem.mjs';
 
 /**
  * Represents a shopping cart.

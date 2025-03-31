@@ -1,0 +1,46 @@
+### 🔹 Test API
+GET http://localhost:3000/api/bag/test HTTP/1.1
+
+### 🔹 Ottieni tutte le borse
+GET http://localhost:3000/api/bag/ HTTP/1.1
+
+### 🔹 Ottieni una borsa per ID
+GET http://localhost:3000/api/bag/getBagById/101 HTTP/1.1
+
+### 🔹 Ottieni tutte le borse di un determinato negozio
+GET http://localhost:3000/api/bag/getBagsByEstablishment/2 HTTP/1.1
+
+### 🔹 Ottieni le borse disponibili
+GET http://localhost:3000/api/bag/getAvailableBags HTTP/1.1
+
+### 🔹 Ottieni le borse disponibili di un determinato negozio
+GET http://localhost:3000/api/bag/getAvailableBagsByEstablishment/2 HTTP/1.1
+
+### 🔹 Ottieni le borse disponibili a partire da una certa data/ora
+GET http://localhost:3000/api/bag/getAvailableBagsFromDateTime/datetime=2010-10-25T10:00:00 HTTP/1.1
+
+### 🔹 Inserisci una nuova borsa
+PUT http://localhost:3000/api/bag/insertBag HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "Pane",
+  "price": 12.0,
+  "startTime": "2024-03-25 10:00:00",
+  "endTime": "2024-03-25 12:00:00",
+  "status": "disponibile",
+  "establishmentID": 2
+}
+
+### 🔹 Aggiorna una borsa esistente
+PUT http://localhost:3000/api/bag/updateBag HTTP/1.1
+Content-Type: application/json
+
+{
+  "columns": ["type", "price"],
+  "conditions": "bagID = 102",
+  "values": ["Pane aggiornato", 150]
+}
+
+### 🔹 Elimina una borsa per ID
+DELETE http://localhost:3000/api/bag/deleteBagWithId/110 HTTP/110.1

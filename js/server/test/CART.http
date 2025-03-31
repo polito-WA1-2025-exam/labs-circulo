@@ -1,0 +1,33 @@
+### 🔹 Test API Carrello
+GET http://localhost:3000/api/cart/test HTTP/1.1
+
+### 🔹 Ottieni tutti i carrelli
+GET http://localhost:3000/api/cart HTTP/1.1
+
+### 🔹 Ottieni il carrello per username
+GET http://localhost:3000/api/cart/anna_neri HTTP/1.1
+
+### 🔹 Inserisci un nuovo carrello
+POST http://localhost:3000/api/cart HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "marco_bruno",
+    "bagID": 109,
+    "removedFood1": null,
+    "removedFood2": null,
+    "specialRequest": "boh"
+}
+
+### 🔹 Aggiorna un carrello
+PUT http://localhost:3000/api/cart/marco_bruno/109 HTTP/1.1
+Content-Type: application/json
+
+{
+    "removedFood1": "food1",
+    "removedFood2": null,
+    "specialRequest": "Nessuna richiesta"
+}
+
+### 🔹 Elimina un carrello
+DELETE http://localhost:3000/api/cart/marco_bruno/109 HTTP/1.1

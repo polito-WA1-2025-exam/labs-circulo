@@ -1,0 +1,27 @@
+### 🔹 Test API Prenotazioni
+GET http://localhost:3000/api/reservation/test HTTP/1.1
+
+### 🔹 Ottieni tutte le prenotazioni
+GET http://localhost:3000/api/reservation HTTP/1.1
+
+### 🔹 Ottieni le prenotazioni per username
+GET http://localhost:3000/api/reservation/marco_bruno HTTP/1.1
+
+### 🔹 Inserisci una nuova prenotazione
+PUT http://localhost:3000/api/reservation/insertReservation/marco_bruno HTTP/1.1
+Content-Type: application/json
+
+{
+    "bagID": 106
+}
+
+### 🔹 Aggiorna una prenotazione
+PUT http://localhost:3000/api/reservation/updateReservation/marco_bruno/106 HTTP/1.1
+Content-Type: application/json
+
+{
+   "bagID": 109
+}
+
+### 🔹 Elimina una prenotazione
+DELETE http://localhost:3000/api/reservation/marco_bruno/109 HTTP/1.1

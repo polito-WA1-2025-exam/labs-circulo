@@ -17,7 +17,7 @@
       "type": "node",
       "request": "launch",
       "name": "Debug server.js",
-      "program": "${workspaceFolder}/js/server.js",
+      "program": "${workspaceFolder}/js/server.mjs",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
