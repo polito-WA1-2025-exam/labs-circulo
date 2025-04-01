@@ -5,22 +5,22 @@ GET http://localhost:3000/api/bag/test HTTP/1.1
 GET http://localhost:3000/api/bag/ HTTP/1.1
 
 ### 🔹 Ottieni una borsa per ID
-GET http://localhost:3000/api/bag/getBagById/101 HTTP/1.1
+GET http://localhost:3000/api/bag/101 HTTP/1.1
 
 ### 🔹 Ottieni tutte le borse di un determinato negozio
-GET http://localhost:3000/api/bag/getBagsByEstablishment/2 HTTP/1.1
+GET http://localhost:3000/api/bag/byEstablishment/2 HTTP/1.1
 
 ### 🔹 Ottieni le borse disponibili
-GET http://localhost:3000/api/bag/getAvailableBags HTTP/1.1
+GET http://localhost:3000/api/bag/available HTTP/1.1
 
 ### 🔹 Ottieni le borse disponibili di un determinato negozio
-GET http://localhost:3000/api/bag/getAvailableBagsByEstablishment/2 HTTP/1.1
+GET http://localhost:3000/api/bag/available/byEstablishment/2 HTTP/1.1
 
 ### 🔹 Ottieni le borse disponibili a partire da una certa data/ora
-GET http://localhost:3000/api/bag/getAvailableBagsFromDateTime/datetime=2010-10-25T10:00:00 HTTP/1.1
+GET http://localhost:3000/api/bag/available/fromDateTime/datetime=2010-10-25T10:00:00 HTTP/1.1
 
 ### 🔹 Inserisci una nuova borsa
-PUT http://localhost:3000/api/bag/insertBag HTTP/1.1
+PUT http://localhost:3000/api/bag/insert HTTP/1.1
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 
 ### 🔹 Aggiorna una borsa esistente
-PUT http://localhost:3000/api/bag/updateBag HTTP/1.1
+PUT http://localhost:3000/api/bag/update HTTP/1.1
 Content-Type: application/json
 
 {
@@ -43,4 +43,4 @@ Content-Type: application/json
 }
 
 ### 🔹 Elimina una borsa per ID
-DELETE http://localhost:3000/api/bag/deleteBagWithId/110 HTTP/110.1
+DELETE http://localhost:3000/api/bag/110 HTTP/110.1

@@ -5,64 +5,98 @@ async function test(req, res) {
     res.json({ message: 'User API works just fine' });
 }
 
-export async function getUsernames(req, res) {
+async function getUsernames(req, res) {
     try {
         const users = await UserController.getUsernames();
+        console.log("Users:", users);
+        if (!users || users.length === 0) {
+            return res.status(404).json({success:false, error: "No users found in the database" });
+        }
         res.json(users);
-
     } catch (error) {
-        res.status(500).json({ error: "Errore nel recupero degli users: " + error.message });
+        console.error("Errore nel recupero degli utenti:", error.message);
+        res.status(500).json({success:false, error: "Errore nel recupero degli utenti" });
     }
 }
 
-export async function getUser(req, res) {
+async function getUserByUsername(req, res) {
     try {
         checkParams(req.params, res, ["username"]);
-        const user = await UserController.getUser(req.params.username);
+        const user = await UserController.getUserByUsername(req.params.username);
+        if (!user) {
+            return res.status(404).json({success:false, error: `User with username ${req.params.username} not found` });
+        }
         res.json(user);
     } catch (error) {
-        res.status(500).json({ error: "Errore nel recupero degli users: " + error.message });
+        console.error("Errore nel recupero dell'utente:", error.message);
+        res.status(500).json({success:false, error: "Errore nel recupero dell'utente" });
     }
 }
 
-export async function deleteUser(req, res) {
+async function getUsers(req, res) {
+    try {
+        const users = await UserController.getUsers();
+        console.log("Users:", users);
+        if (!users || users.length === 0) {
+            return res.status(404).json({success:false, error: "No users found in the database" });
+        }
+        res.json(users);
+    } catch (error) {
+        console.error("Errore nel recupero degli utenti:", error.message);
+        res.status(500).json({success:false, error: "Errore nel recupero degli utenti" });
+    }
+}
+
+async function deleteUser(req, res) {
     try {
         checkParams(req.params, res, ["username"]);
         const result = await UserController.deleteUser(req.params.username);
-        res.json(result);
+        if (!result.success) {
+            return res.status(404).json({success:false, error: result.error || `User with username ${req.params.username} not found` });
+        }
+        res.json({success:true, message: "User deleted successfully!" });
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'eliminazione dello user " + error.message });
+        console.error("Errore nell'eliminazione dell'utente:", error.message);
+        res.status(500).json({success:false, error: "Errore interno del server durante l'eliminazione dell'utente" });
     }
 }
 
-export async function insertUser(req, res) {
+async function insertUser(req, res) {
     try {
         checkParams(req.body, res, ["username", "name", "password"]);
         const result = await UserController.insertUser(req.body);
-        res.json(result);
+        if (!result.success) {
+            return res.status(400).json({success:false, error: result.error || "Errore nell'inserimento dell'utente" });
+        }
+        res.json({success:true, message: "Utente inserito con successo!" });
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'inserimento dello user " + error.message });
+        console.error("Errore nell'inserimento dell'utente:", error.message);
+        res.status(500).json({success:false, error: "Errore interno del server durante l'inserimento dell'utente" });
     }
 }
 
-export async function updateUser(req, res) {
+async function updateUser(req, res) {
     try {
         if (req.query.password) delete req.body.password;
         if (req.query.username) delete req.body.username;
 
-        const result = await UserController.updateUser(Object.keys(req.query), `username = '${req.params.username}'`, Object.values(req.query));
-        res.json({ message: "User aggiornato con successo!", result });
-
+        const result = await UserController.updateUser(req.body.columns, req.body.conditions, req.body.values);
+        if (!result.success) {
+            return res.status(400).json({success:false, error: result.error || "Errore nell'aggiornamento dell'utente" });
+        }
+        res.json({success:true, message: "Utente aggiornato con successo!" });
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'aggiornamento dello user " + error.message });
+        console.error("Errore nell'aggiornamento dell'utente:", error.message);
+        res.status(500).json({success:false, error: "Errore interno del server durante l'aggiornamento dell'utente" });
     }
 }
 
 export default {
     test,
     getUsernames,
-    getUser,
+    getUserByUsername,
+    getUsers,
     deleteUser,
     insertUser,
     updateUser,
-};  
+};

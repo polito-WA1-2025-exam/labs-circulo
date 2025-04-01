@@ -4,8 +4,8 @@ import { Cart } from "../types/Cart.mjs";
 import { CartItem } from "../types/CartItem.mjs";
 import dayjs from "dayjs";
 
+// Mappa una riga del database in un oggetto CartItem
 function mapToCartItem(row) {
-    //console.log(row.specialRequests);
     return new CartItem(
         new Bag(
             row.bagID,
@@ -18,10 +18,10 @@ function mapToCartItem(row) {
         ),
         [row.removedFood1, row.removedFood2].filter((food) => food !== null),
         row.specialRequest
-    )
+    );
 }
 
-
+// Recupera tutti i carrelli
 export async function getCarts() {
     const sql = `
         SELECT * 
@@ -31,35 +31,29 @@ export async function getCarts() {
 
     let db;
     try {
-        // Open the database connection
         db = await openDb();
-
-        // Fetch rows from the database using the provided query and username
         const rows = await dbAllAsync(db, sql, []);
 
-        console.log(rows);
+        if (rows.length === 0) {
+            console.log("Nessun cart trovato nel database.");
+            return []; // Restituisce un array vuoto se non ci sono risultati
+        }
 
-
-        // Map each row to a CartItem object
+        // Mappa le righe in oggetti CartItem
         const cartItems = rows.map(mapToCartItem);
-
-        // Return a new Cart object containing the cart items
         return new Cart(cartItems);
-    } finally {
-        // Ensure the database connection is closed
+    }catch (error) {
+        console.error("Errore in getCarts:", error);
+        return [];
+    }
+    finally {
         if (db) {
             await closeDb(db);
         }
     }
-
 }
 
-/**
- * Retrieves the cart for a specific user from the database.
- * 
- * @param {string} username - The username of the user whose cart is being retrieved.
- * @returns {Promise<Cart>} - A promise that resolves to a Cart object containing the user's cart items.
- */
+// Recupera il carrello di un utente specifico
 export async function getCart(username) {
     const sql = `
         SELECT * 
@@ -70,71 +64,88 @@ export async function getCart(username) {
 
     let db;
     try {
-        // Open the database connection
         db = await openDb();
-
-        // Fetch rows from the database using the provided query and username
         const rows = await dbAllAsync(db, sql, [username]);
 
-        console.log(rows);
+        if (rows.length === 0) {
+            console.log(`Nessun cart trovato per l'utente: ${username}`);
+            return []; // Restituisce un array vuoto se non ci sono carrelli per l'utente
+        }
 
-
-        // Map each row to a CartItem object
         const cartItems = rows.map(mapToCartItem);
-
-        // Return a new Cart object containing the cart items
         return new Cart(cartItems);
-    } finally {
-        // Ensure the database connection is closed
+    }catch (error) {
+        console.error("Errore in getCart:", error);
+        return [];
+    } 
+    finally {
         if (db) {
             await closeDb(db);
         }
     }
-
 }
 
-
-export async function deleteCart(username,bagID) {
+// Elimina un cart di un utente specifico
+export async function deleteCart(username, bagID) {
     let db;
     try {
         db = await openDb();
-        return deleteItem(db, "Cart", "username = ? AND bagID = ? ", [username,bagID]);
-    } finally {
+
+        // Verifica se il carrello esiste prima di procedere con la cancellazione
+        const existingCart = await selectItems(db, "Cart", "username = ? AND bagID = ?", ["*"], [username, bagID]);
+        if (existingCart.length === 0) {
+            console.log(`Nessun cart trovato per l'utente: ${username} con bagID: ${bagID}`);
+            return { success: false, error: "Cart non trovato" }; // Restituisce un messaggio d'errore se il carrello non esiste
+        }
+
+        await deleteItem(db, "Cart", "username = ? AND bagID = ?", [username, bagID]);
+        return { success: true };
+    }catch (error) {
+        console.error("Errore in deleteCart:", error);
+        return { success: false, error: "Errore durante la cancellazione del cart" };
+    }        
+     finally {
         if (db) {
             await closeDb(db);
         }
     }
 }
 
-
+// Inserisce un nuovo cart
 export async function insertCart(cart) {
     let db;
     try {
         db = await openDb();
         const values = Object.values(cart);
-
         const columns = ['username', 'bagID', 'removedFood1', 'removedFood2', 'specialRequest'];
 
-        return await insertItem(db, "Cart", columns, values);
-    } finally {
+        await insertItem(db, "Cart", columns, values);
+        return { success: true };
+    }catch (error) {
+        console.error("Errore in insertCart:", error);
+        return { success: false, error: "Errore durante l'inserimento del cart" };
+    } 
+    finally {
         if (db) {
             await closeDb(db);
         }
     }
 }
 
+// Aggiorna un carrello esistente
 export async function updateCart(updateColumns, condition, values) {
     let db;
     try {
         db = await openDb();
-        console.log(updateColumns);
-        console.log(condition);
-        console.log(values);
-        return await updateItem(db, "Cart", updateColumns, condition, values);
-    } finally {
+        await updateItem(db, "Cart", updateColumns, condition, values);
+        return { success: true };
+    }catch (error) {
+        console.error("Errore in updateCart:", error);
+        return { success: false, error: "Errore durante l'aggiornamento del cart" };
+    } 
+    finally {
         if (db) {
             await closeDb(db);
         }
     }
 }
-

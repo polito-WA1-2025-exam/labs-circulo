@@ -9,10 +9,13 @@ async function test(req, res) {
 async function getCarts(req, res) {
     try {
         const carts = await CartController.getCarts();
+        if (!carts || carts.length === 0) {
+            return res.status(404).json({success:false,  error: "Nessun carrello trovato nel database" });
+        }
         res.json(carts);
 
     } catch (error) {
-        res.status(500).json({ error: "Errore nel recupero del carrello: " + error.message });
+        res.status(500).json({success:false, error: "Errore nel recupero del carrello: " + error.message });
     }
 }
 
@@ -20,9 +23,12 @@ async function getCarts(req, res) {
 async function getCartByUsername(req, res) {
     try {
         const cart = await CartController.getCart(req.params.username);
+        if(!cart || cart.length === 0) {
+            return res.status(404).json({success:false, error: "Carrello non trovato" });
+        }
         res.json(cart);
     } catch (error) {
-        res.status(500).json({ error: "Errore nel recupero del carrello  : " + error.message });
+        res.status(500).json({success:false,  error: "Errore nel recupero del carrello  : " + error.message });
     }
 }
 
@@ -30,9 +36,12 @@ async function getCartByUsername(req, res) {
 async function deleteCart(req, res) {
     try {
         const result = await CartController.deleteCart(req.params.username,req.params.BagID);
-        res.json(result);
+        if (!result.success) {
+            return res.status(404).json({success:false,  error: result.error || `Carrello con username ${req.params.username} non trovato` });
+        }
+        res.json({success:true, message: "Carrello eliminato con successo!" });
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'eliminazione del carrello " + error.message });
+        res.status(500).json({success:false, error: "Errore nell'eliminazione del carrello " + error.message });
     }
 }
 
@@ -40,9 +49,12 @@ async function deleteCart(req, res) {
 async function insertCart(req, res) {
     try {
         const result = await CartController.insertCart(req.body);
-        res.json(result);
+        if (!result.success) {
+            return res.status(404).json({success:false, error: result.error || `Carrello con username ${req.params.username} non trovato` });
+        }
+        res.json({success:true,  message: "Carrello inserito con successo!" });
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'inserimento del carrello " + error.message });
+        res.status(500).json({success:false, error: "Errore nell'inserimento del carrello " + error.message });
     }
 }
 
@@ -55,7 +67,7 @@ async function updateCart(req, res) {
         const bagID = req.params.BagID;
 
         const cart = await CartController.getCart(username);
-        if (!cart) return res.status(404).json({ error: "Carrello non trovato" });
+        if (!cart) return res.status(404).json({success:false,  error: "Carrello non trovato" });
 
         const updateColumns = ["removedFood1", "removedFood2", "specialRequest"]; // Campi da aggiornare
         const conditions = "username = ? AND bagID = ?"; // Condizione per trovare il carrello
@@ -63,10 +75,13 @@ async function updateCart(req, res) {
 
         // Aggiorna il carrello
         const result = await CartController.updateCart(updateColumns, conditions, values);
-        res.json({ message: "Carrello aggiornato con successo!", result });
+        if (!result.success) {
+            return res.status(404).json({success:false, error: result.error || `Carrello con username ${username} non trovato` });
+        }
+        res.json({success:true, message: "Carrello aggiornato con successo!" });
 
     } catch (error) {
-        res.status(500).json({ error: "Errore nell'aggiornamento del carrello " + error.message });
+        res.status(500).json({success:false,  error: "Errore nell'aggiornamento del carrello " + error.message });
     }
 }
 

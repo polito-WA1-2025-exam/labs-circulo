@@ -6,9 +6,9 @@ const routerEstablishment = Router();
 routerEstablishment.get('/test', EstablishmentController.test);
 routerEstablishment.get('/', EstablishmentController.getEstablishments);
 routerEstablishment.get('/:establishmentID', EstablishmentController.getEstablishmentById);
-routerEstablishment.get('/bytype/:type', EstablishmentController.getEstablishmentsByType);
+routerEstablishment.get('/byType/:type', EstablishmentController.getEstablishmentsByType);
 routerEstablishment.delete('/:establishmentID', EstablishmentController.deleteEstablishmentWithId);
-routerEstablishment.post('/', EstablishmentController.insertEstablishment);
-routerEstablishment.put('/update/:establishmentID', EstablishmentController.updateEstablishment);
+routerEstablishment.post('/insert', EstablishmentController.insertEstablishment);
+routerEstablishment.put('/update', EstablishmentController.updateEstablishment);
 
 export default routerEstablishment;

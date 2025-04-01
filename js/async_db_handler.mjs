@@ -184,7 +184,7 @@ export function selectItems(db, tableName, condition = null, columns = ["*"], pa
  * @param {any[]} params - An array of values corresponding to the columns to be inserted.
  * @returns {Promise<string>} A promise that resolves with a success message if the record is inserted successfully.
  */
-export function insertItem(db, table, columns, params) {
+export function insertItem(db, table, columns=[], params=[]) {
     return new Promise((resolve, reject) => {
         const placeholders = columns.map(() => "?").join(", ");
         const sql = `INSERT INTO ${table} (${columns.join(", ")}) VALUES (${placeholders})`;

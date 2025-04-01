@@ -4,7 +4,7 @@ import { closeDb, deleteItem, insertItem, openDb, selectItems, updateItem } from
 
 const columns = ["type", "price", "startTime", "endTime", "status", "establishmentID"];
 
-// Function to map a database row to a Bag object
+// Mappa una riga del database a un oggetto Bag
 function mapToBag(row) {
     return new Bag(
         row.bagID,
@@ -18,13 +18,15 @@ function mapToBag(row) {
 }
 
 // Fetch all bags from the database
-//da provare anche in caso genearle
 export async function getBags(condition = null, columns = ["*"], params = []) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", condition, columns, params)
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", condition, columns, params);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse
+    } catch (error) {
+        console.error("Errore nel recupero delle borse:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -32,28 +34,16 @@ export async function getBags(condition = null, columns = ["*"], params = []) {
     }
 }
 
-
 // Fetch a specific bag by its ID
-/**
- * Retrieves a bag from the database based on the provided bag ID.
- *
- * @param {number} bagId - The unique identifier of the bag to retrieve.
- * @returns {Promise<Bag>} A promise that resolves to the bag object if found, or null if not found.
- * @throws {Error} If there is an issue opening or closing the database.
- */
 export async function getBagById(bagId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "bagID = ?", ["*"], [bagId])
-            .then(rows => {
-                if (rows.length === 0) {
-                    Promise.reject(new Error(`Bag with ID ${bagId} not found`));
-                }
-
-                return rows[0];
-            })
-            .then(row => mapToBag(row));
+        const rows = await selectItems(db, "Bag", "bagID = ?", ["*"], [bagId]);
+        return rows.length === 0 ? null : mapToBag(rows[0]); // Restituisci null se non viene trovata la borsa
+    } catch (error) {
+        console.error("Errore nel recupero della borsa:", error.message);
+        return null; // Restituisci null in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -66,8 +56,11 @@ export async function getBagsByEstablishment(establishmentId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "establishmentID = ?", ["*"], [establishmentId])
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", "establishmentID = ?", ["*"], [establishmentId]);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse
+    } catch (error) {
+        console.error("Errore nel recupero delle borse per l'establishment:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -80,8 +73,11 @@ export async function getAvailableBags() {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "status = ?", ["*"], ["disponibile"])
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", "status = ?", ["*"], ["disponibile"]);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse disponibili
+    } catch (error) {
+        console.error("Errore nel recupero delle borse disponibili:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -90,19 +86,15 @@ export async function getAvailableBags() {
 }
 
 // Fetch all available bags for a specific establishment
-/**
- * Retrieves the available bags for a specific establishment.
- *
- * @param {number} establishmentId - The ID of the establishment to filter bags by.
- * @returns {Promise<Array>} A promise that resolves to an array of bag objects.
- * @throws {Error} If there is an issue opening or closing the database.
- */
 export async function getAvailableBagsByEstablishment(establishmentId) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "status = ? AND establishmentID = ?", ["*"], ["disponibile", establishmentId])
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", "status = ? AND establishmentID = ?", ["*"], ["disponibile", establishmentId]);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse disponibili per l'establishment
+    } catch (error) {
+        console.error("Errore nel recupero delle borse disponibili per l'establishment:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -115,8 +107,11 @@ export async function getReservedBags() {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "status = ?", ["*"], ["riservato"])
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", "status = ?", ["*"], ["riservato"]);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse riservate
+    } catch (error) {
+        console.error("Errore nel recupero delle borse riservate:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -125,20 +120,15 @@ export async function getReservedBags() {
 }
 
 // Fetch all available bags starting from a specific datetime
-/**
- * Retrieves available bags from the database starting from a specific date and time.
- *
- * @param {dayjs.Dayjs} datetime - The number of days to calculate the starting date and time.
- *                            This value is used to determine the datetime in the format "YYYY-MM-DD HH:mm:ss".
- * @returns {Promise<Array<Bag>>} A promise that resolves to an array of available bags mapped to their respective objects.
- * @throws {Error} If there is an issue opening or closing the database connection.
- */
 export async function getAvailableBagsFromDateTime(datetime) {
     let db;
     try {
         db = await openDb();
-        return selectItems(db, "Bag", "status = ? AND startTime >= ?", ["*"], ["disponibile", datetime.format("YYYY-MM-DD HH:mm:ss")])
-            .then((rows) => rows.map(mapToBag));
+        const rows = await selectItems(db, "Bag", "status = ? AND startTime >= ?", ["*"], ["disponibile", datetime.format("YYYY-MM-DD HH:mm:ss")]);
+        return rows.length > 0 ? rows.map(mapToBag) : []; // Restituisci un array vuoto se non ci sono borse disponibili da quella data
+    } catch (error) {
+        console.error("Errore nel recupero delle borse disponibili dalla data:", error.message);
+        return []; // Restituisci un array vuoto in caso di errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -146,11 +136,16 @@ export async function getAvailableBagsFromDateTime(datetime) {
     }
 }
 
+// Delete a bag by its ID
 export async function deleteBagWithId(bagId) {
     let db;
     try {
         db = await openDb();
-        return deleteItem(db, "Bag", "bagID = ?", [bagId]);
+        await deleteItem(db, "Bag", "bagID = ?", [bagId]);
+        return { success: true }; // Restituisci un oggetto che indica successo
+    } catch (error) {
+        console.error("Errore nell'eliminazione della borsa:", error.message);
+        return { success: false, error: error.message }; // Restituisci un oggetto che indica errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -158,13 +153,17 @@ export async function deleteBagWithId(bagId) {
     }
 }
 
+// Insert a new bag into the database
 export async function insertBag(bag) {
     let db;
     try {
         db = await openDb();
         const values = Object.values(bag);
-
-        return await insertItem(db, "Bag", columns, values);
+        await insertItem(db, "Bag", columns, values);
+        return { success: true }; // Restituisci un oggetto che indica successo
+    } catch (error) {
+        console.error("Errore nell'inserimento della borsa:", error.message);
+        return { success: false, error: error.message }; // Restituisci un oggetto che indica errore
     } finally {
         if (db) {
             await closeDb(db);
@@ -172,11 +171,16 @@ export async function insertBag(bag) {
     }
 }
 
+// Update a bag in the database
 export async function updateBag(updateColumns, condition, values) {
     let db;
     try {
         db = await openDb();
-        return await updateItem(db, "Bag", updateColumns, condition, values);
+        await updateItem(db, "Bag", updateColumns, condition, values);
+        return { success: true }; // Restituisci un oggetto che indica successo
+    } catch (error) {
+        console.error("Errore nell'aggiornamento della borsa:", error.message);
+        return { success: false, error: error.message }; // Restituisci un oggetto che indica errore
     } finally {
         if (db) {
             await closeDb(db);
