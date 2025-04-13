@@ -11,7 +11,7 @@ async function getBags(req, res) {
         if (!bags || bags.length === 0) {
             return res.status(404).json({success: false, error: "No bags found in the database" });
         }
-        res.json(bags);
+        res.status(200).json(bags);
     } catch (error) {
         console.error("Errore nel recupero delle borse:", error.message);
         res.status(500).json({success:false,  error: "Errore nel recupero delle borse" });
